@@ -32,27 +32,27 @@
 
         <!-- ============ 02 · AGENDA ============ -->
         <section>
-          <h2>Two acts</h2>
+          <h2>Two sides</h2>
           <div class="act-list">
-            <p><span class="act-num">I</span> The cipher — the metaphor, the mixtape</p>
-            <p><span class="act-num">II</span> The tracks — five behaviors, five RED→GREEN arcs</p>
+            <p><span class="act-num">Side A</span> The cipher — the metaphor, the mixtape</p>
+            <p><span class="act-num">Side B</span> The tracks — five behaviors, five RED→GREEN arcs</p>
           </div>
           <aside class="notes">
-            Act I sets up the metaphor and the structure: a test suite is a record, tracks
-            named after behaviors, one shared fixture. Act II is the main event: five
+            Side A sets up the metaphor and the structure: a test suite is a record, tracks
+            named after behaviors, one shared fixture. Side B is the main event: five
             tracks, and each one follows the same loop — describe a behavior, open the
             live site, watch the test go RED, fix the app, watch it go GREEN.
           </aside>
         </section>
 
-        <!-- ============ ACT I ============ -->
+        <!-- ============ SIDE A ============ -->
         <section class="act-slide">
-          <h1>ACT I</h1>
+          <h1>SIDE A</h1>
           <h3>THE CIPHER</h3>
           <aside class="notes">
             A cipher is a circle of emcees passing one microphone around. Each rapper gets
             the mic, spits a verse, and passes it on. If anyone drops it, the whole circle
-            feels it. Act I maps that onto test suites and sets up the mixtape — the
+            feels it. Side A maps that onto test suites and sets up the mixtape — the
             structure every track of the talk will follow.
           </aside>
         </section>
@@ -130,7 +130,7 @@
           <aside class="notes">
             The 5-mic rule gives us a way to talk about quality — both for albums and for tests.
             A test that only proves a button exists is a 2-mic test. A test that proves a user
-            can complete a real journey is a 5-mic test. In Act II we only write 5-mic tests.
+            can complete a real journey is a 5-mic test. On Side B we only write 5-mic tests.
           </aside>
         </section>
 
@@ -147,18 +147,18 @@
           </div>
           <p class="fragment">A test suite is an album: <span class="accent">tracks, not files.</span></p>
           <aside class="notes">
-            The mixtape closes Act I: each track is a test file, named after the behavior it
+            The mixtape closes Side A: each track is a test file, named after the behavior it
             protects — the real file tree lives in tests/ in the demo repo. When a track is
             red, you know which song is skipping — you don't have to debug the whole album.
             And every track starts the same way: one shared fixture (the hook,
             tests/fixtures/site.ts) does the setup — open the crate, open a review, run an
-            axe scan. You'll see it live in Act II.
+            axe scan. You'll see it live on Side B.
           </aside>
         </section>
 
-        <!-- ============ ACT II ============ -->
+        <!-- ============ SIDE B ============ -->
         <section class="act-slide">
-          <h1>ACT II</h1>
+          <h1>SIDE B</h1>
           <h3>FIVE TRACKS, FIVE ARCS</h3>
           <p class="fragment">Every track: <span class="red-pill">behavior → test → RED → fix → GREEN</span></p>
           <aside class="notes">
