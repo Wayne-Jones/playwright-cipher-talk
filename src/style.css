@@ -295,34 +295,6 @@
   font-size: 0.6em;
 }
 
-/* ---------- stack grid ---------- */
-
-.reveal .stack-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.7em;
-  width: 70%;
-  margin: 0 auto;
-}
-
-.reveal .stack-grid div {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 0.9em;
-}
-
-.reveal .stack-grid span {
-  display: block;
-  font-weight: 800;
-  font-size: 0.7em;
-}
-
-.reveal .stack-grid small {
-  color: var(--muted);
-  font-size: 0.5em;
-}
-
 /* ---------- takeaways ---------- */
 
 .reveal .takeaways {

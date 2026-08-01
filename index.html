@@ -35,15 +35,14 @@
           <h2>Three acts</h2>
           <div class="act-list">
             <p><span class="act-num">I</span> The cipher — what a rap cipher teaches a test suite</p>
-            <p><span class="act-num">II</span> The instrument — the stack, the mixtape, the hook</p>
+            <p><span class="act-num">II</span> The instrument — the mixtape, the hook</p>
             <p><span class="act-num">III</span> The tracks — five behaviors, five RED→GREEN arcs</p>
           </div>
           <aside class="notes">
-            Act I sets up the metaphor. Act II shows the instrument in miniature: one
-            TypeScript repo, a test suite structured like a record, one shared fixture.
-            Act III is the main event: five tracks, and each one follows the same loop —
-            describe a behavior, open the live site, watch the test go RED, fix the app,
-            watch it go GREEN.
+            Act I sets up the metaphor. Act II shows the instrument in miniature: a test
+            suite structured like a record, one shared fixture. Act III is the main event:
+            five tracks, and each one follows the same loop — describe a behavior, open
+            the live site, watch the test go RED, fix the app, watch it go GREEN.
           </aside>
         </section>
 
@@ -145,25 +144,7 @@
           </aside>
         </section>
 
-        <!-- ============ 09 · STACK ============ -->
-        <section>
-          <h2>The stack</h2>
-          <div class="stack-grid">
-            <div><span class="accent">React 19</span><small>UI</small></div>
-            <div><span class="accent">Vite 8</span><small>dev server &amp; build</small></div>
-            <div><span class="accent">TypeScript</span><small>the app and the tests</small></div>
-            <div><span class="accent">Playwright 1.62</span><small>end-to-end</small></div>
-            <div><span class="accent">axe-core</span><small>accessibility engine</small></div>
-          </div>
-          <p class="fragment">One npm project. The tests are first-class citizens.</p>
-          <aside class="notes">
-            Same language for app and tests — TypeScript everywhere. Playwright's auto-waiting
-            and locator system does the cadence for us. axe-core plugs into Playwright for
-            accessibility flows. The tests live in the same repo as the app, named like tracks.
-          </aside>
-        </section>
-
-        <!-- ============ 11 · THE MIXTAPE ============ -->
+        <!-- ============ 10 · THE MIXTAPE ============ -->
         <section>
           <h2>The mixtape</h2>
           <div class="tracklist">
