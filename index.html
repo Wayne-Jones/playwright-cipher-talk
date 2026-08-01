@@ -32,17 +32,16 @@
 
         <!-- ============ 02 · AGENDA ============ -->
         <section>
-          <h2>Three acts</h2>
+          <h2>Two acts</h2>
           <div class="act-list">
-            <p><span class="act-num">I</span> The cipher — what a rap cipher teaches a test suite</p>
-            <p><span class="act-num">II</span> The instrument — the mixtape, the hook</p>
-            <p><span class="act-num">III</span> The tracks — five behaviors, five RED→GREEN arcs</p>
+            <p><span class="act-num">I</span> The cipher — the metaphor, the mixtape</p>
+            <p><span class="act-num">II</span> The tracks — five behaviors, five RED→GREEN arcs</p>
           </div>
           <aside class="notes">
-            Act I sets up the metaphor. Act II shows the instrument in miniature: a test
-            suite structured like a record, one shared fixture. Act III is the main event:
-            five tracks, and each one follows the same loop — describe a behavior, open
-            the live site, watch the test go RED, fix the app, watch it go GREEN.
+            Act I sets up the metaphor and the structure: a test suite is a record, tracks
+            named after behaviors, one shared fixture. Act II is the main event: five
+            tracks, and each one follows the same loop — describe a behavior, open the
+            live site, watch the test go RED, fix the app, watch it go GREEN.
           </aside>
         </section>
 
@@ -52,7 +51,9 @@
           <h3>THE CIPHER</h3>
           <aside class="notes">
             A cipher is a circle of emcees passing one microphone around. Each rapper gets
-            the mic, spits a verse, and passes it on. If anyone drops it, the whole circle feels it.
+            the mic, spits a verse, and passes it on. If anyone drops it, the whole circle
+            feels it. Act I maps that onto test suites and sets up the mixtape — the
+            structure every track of the talk will follow.
           </aside>
         </section>
 
@@ -129,22 +130,11 @@
           <aside class="notes">
             The 5-mic rule gives us a way to talk about quality — both for albums and for tests.
             A test that only proves a button exists is a 2-mic test. A test that proves a user
-            can complete a real journey is a 5-mic test. In Act III we only write 5-mic tests.
+            can complete a real journey is a 5-mic test. In Act II we only write 5-mic tests.
           </aside>
         </section>
 
-        <!-- ============ ACT II ============ -->
-        <section class="act-slide">
-          <h1>ACT II</h1>
-          <h3>THE INSTRUMENT</h3>
-          <aside class="notes">
-            The instrument is Boombox Reviews — a real, working album review site we'll
-            test like a record we're producing. No time describing it on a slide: we'll
-            open it live in Act III and let the tests do the talking.
-          </aside>
-        </section>
-
-        <!-- ============ 10 · THE MIXTAPE ============ -->
+        <!-- ============ 08 · THE MIXTAPE ============ -->
         <section>
           <h2>The mixtape</h2>
           <div class="tracklist">
@@ -157,33 +147,18 @@
           </div>
           <p class="fragment">A test suite is an album: <span class="accent">tracks, not files.</span></p>
           <aside class="notes">
-            Each track is a test file, named after the behavior it protects — the real file
-            tree lives in tests/ in the demo repo. When a track is red, you know which song
-            is skipping — you don't have to debug the whole album.
+            The mixtape closes Act I: each track is a test file, named after the behavior it
+            protects — the real file tree lives in tests/ in the demo repo. When a track is
+            red, you know which song is skipping — you don't have to debug the whole album.
+            And every track starts the same way: one shared fixture (the hook,
+            tests/fixtures/site.ts) does the setup — open the crate, open a review, run an
+            axe scan. You'll see it live in Act II.
           </aside>
         </section>
 
-        <!-- ============ 12 · THE HOOK ============ -->
-        <section>
-          <h2>The hook — one mic, every verse</h2>
-          <ul>
-            <li class="fragment">One <strong>shared fixture</strong> — the setup every verse would otherwise repeat</li>
-            <li class="fragment"><strong>Open the crate</strong> — load the site, wait for the record bin</li>
-            <li class="fragment"><strong>Open a review</strong> — one call, any album, from any track</li>
-            <li class="fragment"><strong>Run an axe scan</strong> — WCAG checks, one call away</li>
-          </ul>
-          <p class="fragment">Every track starts the same way — <span class="accent">the mic is already hot.</span></p>
-          <aside class="notes">
-            In the repo it's a custom Playwright fixture, tests/fixtures/site.ts: goto() waits
-            for the "every album" heading, openReview() clicks the right card, a11yScan()
-            wraps @axe-core/playwright's AxeBuilder. Tests stop being 50 lines of setup and
-            become pure behavior. We'll see it live in Act III.
-          </aside>
-        </section>
-
-        <!-- ============ ACT III ============ -->
+        <!-- ============ ACT II ============ -->
         <section class="act-slide">
-          <h1>ACT III</h1>
+          <h1>ACT II</h1>
           <h3>FIVE TRACKS, FIVE ARCS</h3>
           <p class="fragment">Every track: <span class="red-pill">behavior → test → RED → fix → GREEN</span></p>
           <aside class="notes">
