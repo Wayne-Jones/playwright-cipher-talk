@@ -1,0 +1,292 @@
+/* ============ The Playwright Cipher — deck styling ============ */
+
+:root {
+  --ink: #e8e8e8;
+  --muted: #8a8a8a;
+  --dim: #4a4a4a;
+  --black: #000000;
+  --panel: #121212;
+  --panel-2: #181818;
+  --accent: #1ed760;
+  --accent-dim: #10a04a;
+  --red: #ff4d4d;
+  --line: #262626;
+  --mono: "JetBrains Mono", monospace;
+}
+
+.reveal {
+  background: var(--black);
+  color: var(--ink);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  font-family: "Inter", system-ui, sans-serif;
+  color: var(--ink);
+  text-transform: none;
+  letter-spacing: 0;
+  text-shadow: none;
+}
+
+.reveal h2 {
+  font-size: 1.5em;
+  font-weight: 800;
+  margin-bottom: 0.7em;
+}
+
+.reveal .accent {
+  color: var(--accent);
+}
+
+.reveal .red {
+  color: var(--red);
+}
+
+.reveal .green {
+  color: var(--accent);
+}
+
+/* ---------- title / presenter ---------- */
+
+.reveal .kicker {
+  font-size: 0.5em;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.4em;
+}
+
+.reveal .title {
+  font-size: 2.9em;
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin: 0.15em 0;
+}
+
+.reveal .subtitle {
+  font-size: 0.95em;
+  color: var(--muted);
+  margin-top: 0.9em;
+}
+
+.reveal .presenter {
+  font-family: var(--mono);
+  font-size: 0.45em;
+  color: var(--accent);
+  margin-top: 1.4em;
+}
+
+/* ---------- act dividers ---------- */
+
+.reveal .act-slide h1 {
+  font-size: 3.6em;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.reveal .act-slide h3 {
+  color: var(--muted);
+  letter-spacing: 0.6em;
+  font-size: 1em;
+  margin-top: 0.4em;
+}
+
+/* ---------- track dividers ---------- */
+
+.reveal .track-slide .track-number {
+  font-family: var(--mono);
+  color: var(--accent);
+  letter-spacing: 0.5em;
+  font-size: 0.6em;
+  margin-bottom: 0.8em;
+}
+
+.reveal .track-slide h1 {
+  font-size: 3.2em;
+  font-weight: 900;
+  margin-bottom: 0.25em;
+}
+
+.reveal .track-slide p {
+  color: var(--muted);
+  font-size: 0.7em;
+}
+
+/* ---------- lists ---------- */
+
+.reveal ul,
+.reveal ol {
+  line-height: 1.6;
+  font-size: 0.72em;
+}
+
+.reveal li {
+  margin: 0.45em 0;
+}
+
+.reveal .quote {
+  font-style: italic;
+  color: var(--accent);
+  font-size: 0.7em;
+  margin-top: 1.2em;
+}
+
+.reveal .behavior {
+  color: var(--muted);
+  font-size: 0.8em;
+  margin-bottom: 0.6em;
+}
+
+/* ---------- act list ---------- */
+
+.reveal .act-list p {
+  font-size: 0.8em;
+  margin: 0.7em 0;
+  text-align: left;
+}
+
+.reveal .act-num {
+  display: inline-block;
+  min-width: 2.2em;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+/* ---------- metaphor table ---------- */
+
+.reveal table.metaphor {
+  font-size: 0.6em;
+  border-collapse: collapse;
+  width: 60%;
+  margin: 0.6em auto;
+}
+
+.reveal table.metaphor th {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85em;
+  border-bottom: 2px solid var(--accent);
+}
+
+.reveal table.metaphor td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.4em 1.2em;
+  text-align: left;
+}
+
+.reveal table.metaphor td:first-child {
+  font-family: var(--mono);
+  color: var(--accent-dim);
+}
+
+/* ---------- code ---------- */
+
+.reveal pre {
+  width: 88%;
+  margin: 0.4em auto;
+  box-shadow: none;
+  font-size: 0.5em;
+}
+
+.reveal pre code {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.9em 1.1em;
+  max-height: 55vh;
+}
+
+.reveal .hljs {
+  background: var(--panel);
+  color: #d4d4d4;
+}
+
+/* ---------- red-pill ---------- */
+
+.reveal .red-pill {
+  display: inline-block;
+  background: rgba(255, 77, 77, 0.12);
+  color: var(--red);
+  border: 1px solid rgba(255, 77, 77, 0.5);
+  border-radius: 999px;
+  padding: 0.25em 1em;
+  font-family: var(--mono);
+  font-size: 0.6em;
+}
+
+/* ---------- stack grid ---------- */
+
+.reveal .stack-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.7em;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.reveal .stack-grid div {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.9em;
+}
+
+.reveal .stack-grid span {
+  display: block;
+  font-weight: 800;
+  font-size: 0.7em;
+}
+
+.reveal .stack-grid small {
+  color: var(--muted);
+  font-size: 0.5em;
+}
+
+/* ---------- takeaways ---------- */
+
+.reveal .takeaways {
+  text-align: left;
+  width: 62%;
+  margin: 0 auto;
+  font-size: 0.75em;
+}
+
+.reveal .takeaways strong {
+  color: var(--accent);
+}
+
+/* ---------- resources ---------- */
+
+.reveal .resources {
+  font-size: 0.6em;
+  text-align: left;
+  width: 66%;
+  margin: 0 auto;
+}
+
+.reveal .resources a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- footer ---------- */
+
+.reveal .deck-footer {
+  position: fixed;
+  bottom: 14px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--dim);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 10;
+}

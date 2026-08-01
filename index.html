@@ -1,0 +1,1041 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>The Playwright Cipher — Commit Your Code 2026</title>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- ============ 01 · TITLE ============ -->
+        <section>
+          <p class="kicker">Commit Your Code 2026</p>
+          <h1 class="title">THE<br />PLAYWRIGHT<br /><span class="accent">CIPHER</span></h1>
+          <p class="subtitle">Flow, hooks, bars — and end-to-end tests that hit.</p>
+          <p class="presenter">Wayne Jones</p>
+          <aside class="notes">
+            Welcome. This talk is about end-to-end testing, told through the structure of a rap cipher.
+            By the end, you'll have a mental model for writing test suites that are readable,
+            maintainable, and resilient — and you'll see the whole loop live: tests written for
+            behaviors, tests catching broken behaviors, and fixes making them pass.
+          </aside>
+        </section>
+
+        <!-- ============ 02 · AGENDA ============ -->
+        <section>
+          <h2>Three acts</h2>
+          <div class="act-list">
+            <p><span class="act-num">I</span> The cipher — what a rap cipher teaches a test suite</p>
+            <p><span class="act-num">II</span> The instrument — a live demo site built for testing</p>
+            <p><span class="act-num">III</span> The tracks — five behaviors, five RED→GREEN arcs</p>
+          </div>
+          <aside class="notes">
+            Act I sets up the metaphor. Act II is the instrument we'll play — a small
+            rap-album review site. Act III is the main event: five tracks, and each one
+            follows the same loop — describe a behavior, write a test, watch it go RED,
+            fix the app, watch it go GREEN.
+          </aside>
+        </section>
+
+        <!-- ============ ACT I ============ -->
+        <section class="act-slide">
+          <h1>ACT I</h1>
+          <h3>THE CIPHER</h3>
+          <aside class="notes">
+            A cipher is a circle of emcees passing one microphone around. Each rapper gets
+            the mic, spits a verse, and passes it on. If anyone drops it, the whole circle feels it.
+          </aside>
+        </section>
+
+        <!-- ============ 04 · WHAT IS A CIPHER ============ -->
+        <section>
+          <h2>What is a cipher?</h2>
+          <ul>
+            <li class="fragment">A <strong>circle of emcees</strong>, one microphone</li>
+            <li class="fragment">Each verse has <strong>flow</strong> — the rhythm of the journey</li>
+            <li class="fragment">A <strong>hook</strong> — the part everyone sings back</li>
+            <li class="fragment"><strong>Bars</strong> — the lines that land and stay with you</li>
+            <li class="fragment"><strong>Cadence</strong> — timing so good nobody stumbles</li>
+          </ul>
+          <p class="fragment quote">"A good cipher has no filler. Every line earns its place."</p>
+          <aside class="notes">
+            The cipher works because everyone shares the same mic and the same beat.
+            A good test suite is exactly the same: shared helpers, one consistent rhythm,
+            and every single test earning its place. Let's map that onto testing.
+          </aside>
+        </section>
+
+        <!-- ============ 05 · METAPHOR MAP ============ -->
+        <section>
+          <h2>The metaphor map</h2>
+          <table class="metaphor">
+            <thead>
+              <tr><th>Rap</th><th>Playwright</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Cipher</td><td>Test suite</td></tr>
+              <tr><td>Verse</td><td>A single test</td></tr>
+              <tr><td>Flow</td><td>The user journey the test walks</td></tr>
+              <tr><td>Hook</td><td>Fixtures &amp; helpers</td></tr>
+              <tr><td>Bars</td><td>Assertions</td></tr>
+              <tr><td>Cadence</td><td>Reliable waiting &amp; network resilience</td></tr>
+            </tbody>
+          </table>
+          <aside class="notes">
+            One microphone, shared by every verse: that's your fixture. Flow is the journey
+            your test walks — the same path a user walks. Bars are the assertions, the lines
+            that land. Cadence is the timing: waiting reliably for the app, not sleeping through it.
+          </aside>
+        </section>
+
+        <!-- ============ 06 · WHY ============ -->
+        <section>
+          <h2>Why we need the structure</h2>
+          <p class="fragment">Too many suites are like an off-beat freestyle:</p>
+          <ul>
+            <li class="fragment">Tests nobody can <strong>read</strong> — 400 lines of setup</li>
+            <li class="fragment">Tests that are <strong>flaky</strong> — they pass alone, fail in CI</li>
+            <li class="fragment">Tests that assert <strong>implementation</strong>, not behavior</li>
+          </ul>
+          <p class="fragment quote">A well-produced album: tight structure, no filler, every line serving a purpose.</p>
+          <aside class="notes">
+            The structure of a cipher fixes all three: readable (named tracks, shared hook),
+            resilient (behavior-level waits, cadence), maintainable (every test is a verse,
+            not a novel). The rest of the talk proves it with a live app.
+          </aside>
+        </section>
+
+        <!-- ============ 07 · 5-MIC RULE ============ -->
+        <section>
+          <h2>The rules of the cipher</h2>
+          <p>Boombox Reviews rates every album on the classic <strong class="accent">5-mic scale</strong>:</p>
+          <ul>
+            <li class="fragment"><strong>5 mics</strong> — instant classic, plays on loop</li>
+            <li class="fragment"><strong>4 mics</strong> — certified heat</li>
+            <li class="fragment"><strong>3 mics</strong> — solid, a few bars of filler</li>
+            <li class="fragment"><strong>2 mics</strong> — one good single. Maybe.</li>
+            <li class="fragment"><strong>1 mic</strong> — straight to the bargain bin</li>
+          </ul>
+          <p class="fragment">The same scale applies to <span class="accent">your tests</span> — rate every test by whether it proves a real user behavior.</p>
+          <aside class="notes">
+            The 5-mic rule gives us a way to talk about quality — both for albums and for tests.
+            A test that only proves a button exists is a 2-mic test. A test that proves a user
+            can complete a real journey is a 5-mic test. In Act III we only write 5-mic tests.
+          </aside>
+        </section>
+
+        <!-- ============ ACT II ============ -->
+        <section class="act-slide">
+          <h1>ACT II</h1>
+          <h3>THE INSTRUMENT</h3>
+          <aside class="notes">
+            Every cipher needs a stage. Ours is Boombox Reviews — a real, working album review
+            site that we will test like a record we're producing.
+          </aside>
+        </section>
+
+        <!-- ============ 09 · THE SITE ============ -->
+        <section>
+          <h2>Boombox Reviews</h2>
+          <ul>
+            <li class="fragment">Sixteen classic hip-hop albums, real cover art</li>
+            <li class="fragment">Cards with 5-mic ratings and a <strong>"Read Review"</strong> trigger</li>
+            <li class="fragment">A review <strong>dialog</strong> — keyboard-driven, like everything users expect</li>
+            <li class="fragment">Built to be <em>tested for behaviors</em> — every track maps to one user behavior</li>
+          </ul>
+          <aside class="notes">
+            The site is intentionally small: a header, a grid of album cards, and a review dialog.
+            Small enough to demo live, real enough that broken behaviors are visible to anyone.
+            Each behavior we test is something a real user actually does.
+          </aside>
+        </section>
+
+        <!-- ============ 10 · STACK ============ -->
+        <section>
+          <h2>The stack</h2>
+          <div class="stack-grid">
+            <div><span class="accent">React 19</span><small>UI</small></div>
+            <div><span class="accent">Vite 8</span><small>dev server &amp; build</small></div>
+            <div><span class="accent">TypeScript</span><small>the app and the tests</small></div>
+            <div><span class="accent">Playwright 1.62</span><small>end-to-end</small></div>
+            <div><span class="accent">axe-core</span><small>accessibility engine</small></div>
+          </div>
+          <p class="fragment">One npm project. The tests are first-class citizens.</p>
+          <aside class="notes">
+            Same language for app and tests — TypeScript everywhere. Playwright's auto-waiting
+            and locator system does the cadence for us. axe-core plugs into Playwright for
+            accessibility flows. The tests live in the same repo as the app, named like tracks.
+          </aside>
+        </section>
+
+        <!-- ============ 11 · THE MIXTAPE ============ -->
+        <section>
+          <h2>The mixtape</h2>
+          <pre><code class="language-bash" data-trim>
+tests/
+├─ fixtures/
+│  └─ site.ts              # the HOOK — shared fixture
+├─ 00-intro-smoke.spec.ts  # the intro
+├─ 01-flow-keyboard-nav.spec.ts
+├─ 02-hooks-accessibility.spec.ts
+├─ 03-bars-visual-stability.spec.ts
+├─ 04-cadence-resilient-network.spec.ts
+└─ 05-b-side-listener-features.spec.ts  # the B-SIDE — features users touch
+          </code></pre>
+          <p class="fragment">A test suite is an album: <span class="accent">tracks, not files.</span></p>
+          <aside class="notes">
+            The suite is structured like a record. A warm-up intro track, then four numbered
+            tracks, each named after the behavior it protects. When a track is red, you know
+            which song is skipping — you don't have to debug the whole album.
+          </aside>
+        </section>
+
+        <!-- ============ 12 · THE HOOK ============ -->
+        <section>
+          <h2>The hook — one mic, every verse</h2>
+          <pre><code class="language-ts" data-trim>
+export const test = base.extend({
+  boombox: async ({ page }, use) => {
+    await use({
+      async goto() {
+        await page.goto("/");
+        await expect(page.getByRole("heading", { name: /every album/i }))
+          .toBeVisible();
+      },
+      async openReview(slug) {
+        await page.locator(`[data-album="${slug}"]`)
+          .getByRole("button", { name: /read review/i })
+          .click();
+      },
+    });
+  },
+  a11yScan: async ({ page }, use) => {
+    use(async () => new AxeBuilder({ page }).analyze());
+  },
+});
+          </code></pre>
+          <p class="fragment">Every track starts the same way — <span class="accent">the mic is already hot.</span></p>
+          <aside class="notes">
+            This is the hook — the part every verse drops into. A custom Playwright fixture
+            that handles the boring, repetitive setup: navigating, opening a review, running
+            an accessibility scan. Tests stop being 50 lines of setup and become pure behavior.
+          </aside>
+        </section>
+
+        <!-- ============ ACT III ============ -->
+        <section class="act-slide">
+          <h1>ACT III</h1>
+          <h3>FIVE TRACKS, FIVE ARCS</h3>
+          <p class="fragment">Every track: <span class="red-pill">behavior → test → RED → fix → GREEN</span></p>
+          <aside class="notes">
+            The main event. Five tracks, and each one runs the exact same loop. I'll
+            describe a real user behavior, show the test that describes it, watch it fail
+            against the broken app, fix the smallest possible thing, and watch it pass.
+          </aside>
+        </section>
+
+        <!-- ============ TRACK 01 · FLOW ============ -->
+        <section class="track-slide">
+          <h3 class="track-number">TRACK 01</h3>
+          <h1 class="accent">FLOW</h1>
+          <p>Keyboard navigation: the user journey through the review dialog</p>
+          <aside class="notes">
+            Track 01 is flow — the journey. The behavior: a user opens a review with their
+            keyboard, moves through the dialog, and leaves with Escape. Real users do this
+            every day. If any part of the journey breaks, the flow breaks.
+          </aside>
+        </section>
+
+        <!-- 15 · behavior -->
+        <section>
+          <h2>Track 01 — the behavior</h2>
+          <p class="behavior">A user opens the <em>Illmatic</em> review with the keyboard and:</p>
+          <ol>
+            <li class="fragment">Focus <strong>lands inside</strong> the dialog when it opens</li>
+            <li class="fragment"><strong>Tab</strong> orbits inside the dialog — never the page behind</li>
+            <li class="fragment"><strong>Escape</strong> closes it and hands focus back to the trigger</li>
+          </ol>
+          <p class="fragment quote">Three sentences of behavior → three verses of test.</p>
+          <aside class="notes">
+            Notice what we don't say: no CSS classes, no component names, no implementation.
+            Just the journey. That's a behavior — and behaviors are what users notice.
+          </aside>
+        </section>
+
+        <!-- 16 · verse -->
+        <section>
+          <h2>Track 01 — the verse</h2>
+          <pre><code class="language-ts" data-trim>
+test.beforeEach(async ({ page, boombox }) => {
+  await boombox.goto();
+  await boombox.openReview("illmatic");
+});
+
+test("focus lands inside the dialog when it opens", async ({ page }) => {
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator(":focus")).toHaveCount(1);
+});
+
+test("Tab orbits inside the dialog and never escapes", async ({ page }) => {
+  for (let i = 0; i &lt; 12; i++) {
+    await page.keyboard.press("Tab");
+    await expect.poll(() => dialog.locator(":focus").count())
+      .toBeGreaterThan(0);
+  }
+});
+
+test("Escape closes and returns focus to the trigger", async ({ page }) => {
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  await expect(trigger).toBeFocused();
+});
+          </code></pre>
+          <aside class="notes">
+            Three tests, each one bar of the verse. Read them out loud — they read like a
+            spec of the behavior, not like code. That's the litmus test for a 5-mic test:
+            a product person can read it and nod.
+          </aside>
+        </section>
+
+        <!-- 17 · RED -->
+        <section>
+          <h2>Track 01 — <span class="red">RED</span></h2>
+          <p>The broken app ships with a dialog that forgets the keyboard exists:</p>
+          <pre><code class="language-bash" data-trim>
+1) Track 01 — Flow (keyboard navigation) › focus lands inside the dialog
+
+   Error: expect(locator).toHaveCount(expected) failed
+
+   Locator: getByRole('dialog') >> :focus
+   Expected: 1
+   Received: 0
+          </code></pre>
+          <p class="fragment">3/3 verses fail. <span class="accent">The flow is broken — the test caught it.</span></p>
+          <aside class="notes">
+            Run the track: all three tests fail. Focus never enters the dialog, Tab runs
+            free across the whole page behind it, and Escape does nothing. This is the
+            point of the exercise: we designed tests for behavior first, so the broken
+            behavior is caught the moment it happens — not when a user complains.
+          </aside>
+        </section>
+
+        <!-- 18 · fix -->
+        <section>
+          <h2>Track 01 — the fix</h2>
+          <pre><code class="language-ts" data-trim>
+export function useFocusTrap(onClose: () => void) {
+  useEffect(() => {
+    const previouslyFocused = document.activeElement;
+    focusFirst();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { onClose(); return; }
+      if (event.key !== "Tab") return;
+
+      const items = focusables();
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault(); last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault(); first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      previouslyFocused?.focus();   // hand the mic back
+    };
+  }, [onClose]);
+
+  return containerRef;
+}
+          </code></pre>
+          <p class="fragment">One small hook: <span class="accent">focus in → orbit → Escape hands the mic back.</span></p>
+          <aside class="notes">
+            The fix is one focused hook — the smallest thing that restores the flow.
+            Focus lands on the first focusable element, Tab orbits the ends of the dialog,
+            Escape closes it, and on unmount focus returns to whoever handed us the mic.
+            True story: my first version of this hook had a bug of its own — a `??`
+            fallback that always fired (focus() returns undefined), so focus kept landing
+            on the dialog container instead of a real control. The same test caught it.
+            That's the whole point: tests guard behavior, including the fixes.
+          </aside>
+        </section>
+
+        <!-- 19 · GREEN -->
+        <section>
+          <h2>Track 01 — <span class="green">GREEN</span></h2>
+          <pre><code class="language-bash" data-trim>
+[chromium] › tests/01-flow-keyboard-nav.spec.ts:23 › focus lands inside the dialog ✓
+[chromium] › tests/01-flow-keyboard-nav.spec.ts:29 › Tab orbits inside the dialog ✓
+[chromium] › tests/01-flow-keyboard-nav.spec.ts:40 › Escape closes &amp; returns focus ✓
+
+3 passed
+          </code></pre>
+          <p class="fragment">The same verses that caught the bug now <span class="green">guard the behavior forever.</span></p>
+          <aside class="notes">
+            Run again: three green. The tests didn't change — the app did. That's the
+            whole contract of the talk: tests describe behavior, and the app earns its
+            way to passing them.
+          </aside>
+        </section>
+
+        <!-- ============ TRACK 02 · HOOKS ============ -->
+        <section class="track-slide">
+          <h3 class="track-number">TRACK 02</h3>
+          <h1 class="accent">HOOKS</h1>
+          <p>Accessibility flows: the parts everyone sings back</p>
+          <aside class="notes">
+            Track 02 is hooks — the accessible parts of a song, the part everyone can
+            sing back. For a site, that's the parts assistive tech can reach: proper
+            dialog semantics, contrast, alt text. The hook fixture makes scanning
+            effortless.
+          </aside>
+        </section>
+
+        <!-- 21 · behavior -->
+        <section>
+          <h2>Track 02 — the behavior</h2>
+          <p class="behavior">A screen reader user opens a review and hears:</p>
+          <ol>
+            <li class="fragment">A <strong>named dialog</strong> — announced as a modal, not a mystery box</li>
+            <li class="fragment">Content that passes <strong>WCAG 2.2 AA</strong> — contrast included</li>
+            <li class="fragment">Every cover described by its <strong>alt text</strong></li>
+          </ol>
+          <p class="fragment quote">Accessibility is a behavior. Treat it like one.</p>
+          <aside class="notes">
+            Accessibility isn't a checkbox — it's a behavior real users depend on.
+            We test it exactly like Track 01: describe the experience, assert it.
+          </aside>
+        </section>
+
+        <!-- 22 · verse -->
+        <section>
+          <h2>Track 02 — the verse</h2>
+          <pre><code class="language-ts" data-trim>
+test("the record bin passes the axe scan", async ({ boombox, a11yScan }) => {
+  await boombox.goto();
+  const results = await a11yScan();
+  expect(seriousViolations(results)).toEqual([]);
+});
+
+test("the dialog is announced as a modal dialog", async ({ page, boombox }) => {
+  await boombox.openReview("36-chambers");
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toHaveAttribute("aria-modal", "true");
+  await expect(dialog).toHaveAccessibleName(/Enter the Wu-Tang/i);
+});
+
+test("every album cover has descriptive alt text", async ({ page, boombox }) => {
+  await boombox.goto();
+  const arts = page.locator("img.album-art__image");
+  for (let i = 0; i &lt; await arts.count(); i++) {
+    expect(await arts.nth(i).getAttribute("alt")).toContain("album cover");
+  }
+});
+          </code></pre>
+          <aside class="notes">
+            The a11yScan fixture is the hook doing the heavy lifting — axe-core runs
+            against the live page and we assert zero serious violations. No flaky visual
+            snapshot, no custom heuristic: the industry standard engine, in a fixture.
+          </aside>
+        </section>
+
+        <!-- 23 · RED -->
+        <section>
+          <h2>Track 02 — <span class="red">RED</span></h2>
+          <p>The broken app ships with invisible barriers:</p>
+          <pre><code class="language-json" data-trim>
+{
+  "id": "color-contrast",
+  "impact": "serious",
+  "data": {
+    "fgColor": "#616161",
+    "bgColor": "#000000",
+    "contrastRatio": 3.39,
+    "expectedContrastRatio": "4.5:1"
+  }
+}
+          </code></pre>
+          <p class="fragment">Plus: the dialog has <span class="accent">no role, no name, no aria-modal</span> — 2/3 verses red.</p>
+          <aside class="notes">
+            axe found the footer text at 3.39:1 — under the 4.5:1 AA threshold. And the
+            dialog was just a div: no role, no name, nothing for a screen reader to hook
+            into. Real problems, caught by real assertions, not vibes.
+          </aside>
+        </section>
+
+        <!-- 24 · fix -->
+        <section>
+          <h2>Track 02 — the fix</h2>
+          <pre><code class="language-tsx" data-trim>
+<div className="modal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby={titleId}>
+  <h2 className="modal__title" id={titleId}>{album.title}</h2>
+</div>
+          </code></pre>
+          <p class="fragment">+ one line of CSS to fix the contrast:</p>
+          <pre><code class="language-css" data-trim>
+.site__footer-aside { color: #8a8a8a; }  /* 3.39:1 → 5.7:1 */
+          </code></pre>
+          <p class="fragment">Semantics are the <span class="accent">hook of the web</span> — give it something to grab.</p>
+          <aside class="notes">
+            Three attributes and one color change. That's it. The dialog gets a real role,
+            a modal flag, and a name derived from the title. The muted text gets enough
+            contrast. Small fixes, verified by the same tests that caught them.
+          </aside>
+        </section>
+
+        <!-- 25 · GREEN -->
+        <section>
+          <h2>Track 02 — <span class="green">GREEN</span></h2>
+          <pre><code class="language-bash" data-trim>
+[chromium] › tests/02-hooks-accessibility.spec.ts:12 › record bin passes axe ✓
+[chromium] › tests/02-hooks-accessibility.spec.ts:18 › dialog passes axe ✓
+[chromium] › tests/02-hooks-accessibility.spec.ts:26 › covers have alt text ✓
+[chromium] › tests/02-hooks-accessibility.spec.ts:39 › announced as a modal ✓
+
+4 passed
+          </code></pre>
+          <aside class="notes">
+            Green across the board. From here on, anyone who reintroduces a contrast
+            regression or strips the dialog semantics gets a red track — automatically.
+          </aside>
+        </section>
+
+        <!-- ============ TRACK 03 · BARS ============ -->
+        <section class="track-slide">
+          <h3 class="track-number">TRACK 03</h3>
+          <h1 class="accent">BARS</h1>
+          <p>Visual stability: assertions that hold the layout to its word</p>
+          <aside class="notes">
+            Track 03 is bars — the lines that land. In design terms: the layout that
+            holds its shape. A record doesn't jump forward when the snare hits, and a
+            page shouldn't jump when an image finishes loading.
+          </aside>
+        </section>
+
+        <!-- 27 · behavior -->
+        <section>
+          <h2>Track 03 — the behavior</h2>
+          <p class="behavior">A user on a slow connection scrolls the record bin and:</p>
+          <ol>
+            <li class="fragment">Every card <strong>holds its box</strong> while covers stream in — no layout shift</li>
+            <li class="fragment">Every cover <strong>reserves its space</strong> from the first paint</li>
+          </ol>
+          <p class="fragment quote">Cumulative Layout Shift is a Core Web Vital. Bars measure it.</p>
+          <aside class="notes">
+            Layout shift isn't a cosmetic nit — it's a Core Web Vital (CLS). Users on slow
+            networks click the wrong album because the grid moved under their cursor.
+            The behavior: the layout must hold its shape no matter how covers load.
+          </aside>
+        </section>
+
+        <!-- 28 · verse -->
+        <section>
+          <h2>Track 03 — the verse</h2>
+          <pre><code class="language-ts" data-trim>
+test.beforeEach(async ({ page, boombox }) => {
+  // the hook: slow the covers down so we can see the grid at its worst
+  await page.route("**/covers/*.jpg", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await route.continue();
+  });
+  await boombox.goto();
+});
+
+test("cards hold their box while covers stream in", async ({ page }) => {
+  await page.evaluate(() => document.fonts.ready);
+  const first = page.locator('[data-album="illmatic"]');
+
+  const sizeBefore = await first.boundingBox();   // bare grid
+
+  await expect.poll(async () => {
+    const img = first.locator("img");
+    return (await img.count()) > 0 &&
+           (await img.evaluate((el) => el.complete));
+  }).toBe(true);                                  // grid, fully loaded
+
+  const sizeAfter = await first.boundingBox();
+  expect(sizeAfter).toEqual(sizeBefore);          // the bars hold
+});
+          </code></pre>
+          <aside class="notes">
+            The route interception is the cadence trick — we slow covers by 1.5 seconds so
+            the test always sees the worst case: a bare grid and a fully loaded grid. Same
+            box, exactly. No tolerance needed, because the behavior has no tolerance.
+          </aside>
+        </section>
+
+        <!-- 29 · RED -->
+        <section>
+          <h2>Track 03 — <span class="red">RED</span></h2>
+          <p>The broken app lets covers <em>push</em> the page:</p>
+          <pre><code class="language-bash" data-trim>
+Error: expect(received).toEqual(expected) // deep equality
+
+  Object {
+-   "height": 351.375,
++   "height": 352.375,
+    "width": 224,
+    "x": 32,
+  }
+
+    &gt; expect(sizeAfter).toEqual(sizeBefore);
+  </code></pre>
+          <p class="fragment">One pixel, but every card does it — <span class="accent">the whole grid jumps.</span></p>
+          <aside class="notes">
+            The diff is a single pixel — but it's every card, on every load, on every slow
+            connection. Users feel it as a click into the wrong album. The test found it
+            because we wrote the assertion for the behavior, not for our own eyes.
+          </aside>
+        </section>
+
+        <!-- 30 · fix -->
+        <section>
+          <h2>Track 03 — the fix</h2>
+          <pre><code class="language-css" data-trim>
+.album-art {
+  aspect-ratio: 1 / 1;      /* the box is reserved up front */
+  position: relative;
+}
+
+.album-art__image {
+  position: absolute;       /* the cover fills the reserved box */
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+          </code></pre>
+          <p class="fragment">The image becomes an <span class="accent">overlay on a reserved box</span> — zero shift, forever.</p>
+          <aside class="notes">
+            One CSS pattern: the art box declares its aspect ratio before the image arrives,
+            and the image simply fills it. The page can't shift, because there's no layout
+            for the image to participate in. The bar holds.
+          </aside>
+        </section>
+
+        <!-- 31 · GREEN -->
+        <section>
+          <h2>Track 03 — <span class="green">GREEN</span></h2>
+          <pre><code class="language-bash" data-trim>
+[chromium] › tests/03-bars-visual-stability.spec.ts:23 › cards hold their box ✓
+[chromium] › tests/03-bars-visual-stability.spec.ts:40 › covers reserve their space ✓
+
+2 passed
+          </code></pre>
+          <aside class="notes">
+            Green. And because the test runs on every push, a future contributor who drops
+            the aspect-ratio gets an immediate, specific red track.
+          </aside>
+        </section>
+
+        <!-- ============ TRACK 04 · CADENCE ============ -->
+        <section class="track-slide">
+          <h3 class="track-number">TRACK 04</h3>
+          <h1 class="accent">CADENCE</h1>
+          <p>Resilient network handling: never stumble when the beat skips</p>
+          <aside class="notes">
+            Track 04 is cadence — timing that never breaks, even when the beat skips.
+            For the app: what happens when a cover request fails? A good MC keeps
+            flowing. A good site keeps reviewing.
+          </aside>
+        </section>
+
+        <!-- 33 · behavior -->
+        <section>
+          <h2>Track 04 — the behavior</h2>
+          <p class="behavior">A user on a flaky connection opens the record bin and:</p>
+          <ol>
+            <li class="fragment">A dropped cover shows a <strong>fallback tile</strong> — never a broken-image icon</li>
+            <li class="fragment">The site <strong>keeps reviewing</strong> even when every cover fails</li>
+          </ol>
+          <p class="fragment quote">The beat will skip. Flow is what you do when it does.</p>
+          <aside class="notes">
+            Networks fail. Covers 404, requests drop, CDNs hiccup. The behavior we want:
+            the site degrades gracefully — a styled fallback, never a broken icon.
+          </aside>
+        </section>
+
+        <!-- 34 · verse -->
+        <section>
+          <h2>Track 04 — the verse</h2>
+          <pre><code class="language-ts" data-trim>
+test("a dropped cover renders a fallback tile, not a broken image",
+  async ({ page, boombox }) => {
+    // cut the wire for one album
+    await page.route("**/covers/madvillainy.jpg",
+                     (route) => route.abort());
+    await boombox.goto();
+
+    const card = page.locator('[data-album="madvillainy"]');
+
+    await expect(card.locator("[data-testid='album-art-fallback']"))
+      .toBeVisible();
+    await expect(card.locator("img")).toHaveCount(0);
+    await expect(card).toContainText("Madvillainy");
+  });
+
+test("the site keeps reviewing when every cover fails",
+  async ({ page, boombox }) => {
+    await page.route("**/covers/*.jpg", (route) => route.abort());
+    await boombox.goto();
+
+    await expect(page.getByRole("heading", { name: /every album/i }))
+      .toBeVisible();
+    await expect(page.locator("[data-testid='album-art-fallback']"))
+      .toHaveCount(albums.length);   // sixteen covers, sixteen tiles
+  });
+          </code></pre>
+          <aside class="notes">
+            Network-level testing is what Playwright does best — we're not mocking a
+            library, we're cutting the actual request on the actual page. Both tests
+            describe the behavior: one cover down, or all sixteen down.
+          </aside>
+        </section>
+
+        <!-- 35 · RED -->
+        <section>
+          <h2>Track 04 — <span class="red">RED</span></h2>
+          <p>The broken app ships a broken image icon:</p>
+          <pre><code class="language-bash" data-trim>
+Error: element(s) not found
+
+Locator: [data-album="madvillainy"]
+         >> [data-testid='album-art-fallback']
+
+   waiting for locator('...album-art-fallback...') to be visible
+  </code></pre>
+          <p class="fragment">No fallback exists — <span class="accent">the cadence stumbles.</span></p>
+          <aside class="notes">
+            With the request aborted, the app renders an <img> that goes nowhere: the
+            browser's broken-image icon. The test finds no fallback, no title, nothing.
+            The behavior we designed for is missing, and the test knows it.
+          </aside>
+        </section>
+
+        <!-- 36 · fix -->
+        <section>
+          <h2>Track 04 — the fix</h2>
+          <pre><code class="language-tsx" data-trim>
+const [failed, setFailed] = useState(false);
+
+if (failed) {
+  return (
+    &lt;figure data-testid="album-art-fallback"
+            style={{ background: `linear-gradient(135deg,
+                     ${colors.from}, ${colors.to})` }}>
+      &lt;span className="album-art__fallback-title"&gt;{title}&lt;/span&gt;
+      &lt;span className="album-art__fallback-artist"&gt;{artist}&lt;/span&gt;
+    &lt;/figure&gt;
+  );
+}
+
+&lt;img src={src} onError={() =&gt; setFailed(true)} ... /&gt;
+          </code></pre>
+          <p class="fragment">One error handler: <span class="accent">the cover swaps to the album's colors.</span></p>
+          <aside class="notes">
+            The fix is one handler and one fallback render — the cover is replaced by a
+            gradient tile using the album's own colors, still labeled with title and
+            artist. The review experience keeps flowing.
+          </aside>
+        </section>
+
+        <!-- 37 · GREEN -->
+        <section>
+          <h2>Track 04 — <span class="green">GREEN</span></h2>
+          <pre><code class="language-bash" data-trim>
+[chromium] › tests/04-cadence-resilient-network.spec.ts:14 › dropped cover falls back ✓
+[chromium] › tests/04-cadence-resilient-network.spec.ts:28 › every cover fails ✓
+
+2 passed
+          </code></pre>
+          <aside class="notes">
+            Green. The site now handles a total cover outage the way a pro handles a
+            skipped beat — by keeping the flow going.
+          </aside>
+        </section>
+
+        <!-- ============ TRACK 05 · THE B-SIDE ============ -->
+        <section class="track-slide">
+          <h3 class="track-number">TRACK 05 · THE B-SIDE</h3>
+          <h1 class="accent">LISTENER<br />FEATURES</h1>
+          <p>Features real users touch: the tracklist, the rating, the comment thread</p>
+          <aside class="notes">
+            Every cipher has a B-side — the features nobody puts in the announcement
+            but everyone actually uses. Here: the tracklist, a 5-mic rating that
+            sticks, and a comment thread. All the pieces of an album people touch
+            after the first play.
+          </aside>
+        </section>
+
+        <!-- 39 · behavior -->
+        <section>
+          <h2>Track 05 — the behavior</h2>
+          <p class="behavior">A listener opens a review and wants to keep listening:</p>
+          <ol>
+            <li class="fragment">The dialog shows the album's <strong>tracklist</strong> — the B-side of the record</li>
+            <li class="fragment">A <strong>5-mic rating</strong> they set sticks — even after reload</li>
+            <li class="fragment">A <strong>comment</strong> they drop joins the thread — and stays</li>
+          </ol>
+          <p class="fragment quote">The features users touch are behaviors too. Test them like the rest.</p>
+          <aside class="notes">
+            The B-side is where the fun lives: persistence. The rating and the comment
+            survive a reload — that's the behavior, and reload is how we prove it.
+          </aside>
+        </section>
+
+        <!-- 40 · verse -->
+        <section>
+          <h2>Track 05 — the verse</h2>
+          <pre><code class="language-ts" data-trim>
+test("the dialog shows the album's tracklist", async ({ page, boombox }) => {
+  await boombox.openReview("illmatic");
+  const dialog = page.getByRole("dialog");
+  await expect(dialog).toContainText("N.Y. State of Mind");
+  await expect(dialog).toContainText("Halftime");
+});
+
+test("a listener can rate the album out of 5 mics — and it sticks",
+  async ({ page, boombox }) => {
+    await boombox.openReview("36-chambers");
+    await page.getByRole("button", { name: /3 mics/i }).click();
+    await expect(page.getByText(/your take:/i)).toContainText("3");
+    await page.reload();                    // the behavior: it STICKS
+    await boombox.openReview("36-chambers");
+    await expect(page.getByText(/your take:/i)).toContainText("3");
+  });
+
+test("a listener can drop a comment and it joins the thread",
+  async ({ page, boombox }) => {
+    await boombox.openReview("illmatic");
+    await page.getByLabel(/drop a comment/i).fill("Stillmatic > Illmatic");
+    await page.getByRole("button", { name: /post comment/i }).click();
+    await expect(page.getByText("Stillmatic > Illmatic")).toBeVisible();
+    await page.reload();                    // persistence, again
+    await boombox.openReview("illmatic");
+    await expect(page.getByText("Stillmatic > Illmatic")).toBeVisible();
+  });
+          </code></pre>
+          <aside class="notes">
+            Three tests, and the second and third have a reload in the middle —
+            that's the assertion for "it sticks". The verse reads like a listener's
+            story, not a component test.
+          </aside>
+        </section>
+
+        <!-- 41 · RED -->
+        <section>
+          <h2>Track 05 — <span class="red">RED</span></h2>
+          <p>The broken app ships a hollow B-side — the features do nothing:</p>
+          <pre><code class="language-bash" data-trim>
+1) Track 05 — The B-Side › tracklist is shown in the dialog
+   Error: expect(locator).toContainText failed
+   Locator: getByRole('dialog')
+   Expected substring: "N.Y. State of Mind"
+   Received: ""  (tracklist never rendered)
+
+2) Track 05 — The B-Side › listener can rate the album — and it sticks
+   Error: ... button "3 mics" not found
+   (clicking a mic does nothing — no state, no persistence)
+
+3) Track 05 — The B-Side › listener can drop a comment
+   Error: ... "post comment" not found
+   (no thread exists to join)
+          </code></pre>
+          <p class="fragment">3/3 verses fail. <span class="accent">The B-side is dead air.</span></p>
+          <aside class="notes">
+            All three fail. The tracklist is missing from the dialog, the rating
+            buttons don't respond, and there's no comment field at all. The tests
+            describe the features as behaviors — so the missing features are caught
+            the moment the track runs.
+          </aside>
+        </section>
+
+        <!-- 42 · fix -->
+        <section>
+          <h2>Track 05 — the fix</h2>
+          <pre><code class="language-tsx" data-trim>
+// tracklist: one map over the album's data
+{album.tracklist.map((track) =&gt; (
+  &lt;li key={track}&gt;&lt;span className="tracklist__idx"&gt;{i + 1}&lt;/span&gt;{track}&lt;/li&gt;
+))}
+
+// rating: clicks write through to localStorage
+const [rating, setRating] = useState(
+  () =&gt; Number(localStorage.getItem(`rating:${album.slug}`)) || 0
+);
+function choose(n) {
+  setRating(n);
+  localStorage.setItem(`rating:${album.slug}`, String(n));
+}
+
+// comments: one state array + persistence in the same spirit
+          </code></pre>
+          <p class="fragment">Same loop: <span class="accent">behavior → test → RED → fix → GREEN.</span></p>
+          <aside class="notes">
+            The smallest fixes that restore the behaviors: render the tracklist from
+            data that already existed, persist the rating in localStorage, and keep
+            comments in state with the same persistence. Nothing clever, nothing
+            overbuilt.
+          </aside>
+        </section>
+
+        <!-- 43 · GREEN -->
+        <section>
+          <h2>Track 05 — <span class="green">GREEN</span></h2>
+          <pre><code class="language-bash" data-trim>
+[chromium] › tests/05-b-side.spec.ts:14 › tracklist shown in dialog ✓
+[chromium] › tests/05-b-side.spec.ts:27 › rate the album — it sticks ✓
+[chromium] › tests/05-b-side.spec.ts:42 › comment joins the thread ✓
+
+3 passed
+          </code></pre>
+          <p class="fragment">The B-side plays — <span class="green">and stays playing after reload.</span></p>
+          <aside class="notes">
+            Green. The persistence tests reload the page and re-open the review —
+            proving the rating and the comment survive, exactly as a listener would
+            experience them.
+          </aside>
+        </section>
+
+        <!-- ============ THE FULL ALBUM ============ -->
+        <section>
+          <h2>The full album</h2>
+          <pre><code class="language-bash" data-trim>
+npx playwright test
+
+17 passed (6.5s)
+
+✔ The Intro — the crate opens              3 passed
+✔ Track 01 — Flow (keyboard navigation)     3 passed
+✔ Track 02 — Hooks (accessibility flows)    4 passed
+✔ Track 03 — Bars (visual stability)        2 passed
+✔ Track 04 — Cadence (resilient network)    2 passed
+✔ Track 05 — The B-Side (listener features) 3 passed
+          </code></pre>
+          <p class="fragment">Six tracks, seventeen verses, <span class="green">one green album.</span></p>
+          <aside class="notes">
+            The whole mixtape runs in about six seconds. Seventeen tests, six named
+            tracks, one shared hook, and every test a behavior someone actually performs.
+          </aside>
+        </section>
+
+        <!-- ============ LIVE DEMO ============ -->
+        <section>
+          <h2>Replay the arc — live</h2>
+          <p>The repo keeps both states as git tags:</p>
+          <pre><code class="language-bash" data-trim>
+# the broken album — tests catch 10 broken behaviors
+git checkout red-state
+npx playwright test        # 10 failed · 4 passed
+
+# the fixed album — the same tests now guard the behaviors
+git checkout green-state
+npx playwright test        # 17 passed
+          </code></pre>
+          <p class="fragment">Or run it <span class="accent">track by track</span> while you present.</p>
+          <aside class="notes">
+            Live demo time: I'll switch to red-state, run the suite, watch it fail, show a
+            fix from the diff, and switch to green-state for the pass. For a safe speedrun,
+            run a single track file and explain the diff rather than editing code live.
+          </aside>
+        </section>
+
+        <!-- ============ OUTRO ============ -->
+        <section class="act-slide">
+          <h1>OUTRO</h1>
+          <h3>FIVE BARS TO TAKE HOME</h3>
+          <aside class="notes">
+            Thirty minutes of metaphor distilled into five bars you can take back to
+            your own test suites on Monday.
+          </aside>
+        </section>
+
+        <!-- 41 · takeaways -->
+        <section>
+          <h2>Five bars to take home</h2>
+          <ol class="takeaways">
+            <li class="fragment"><strong>Flow</strong> — test the journey, not the page</li>
+            <li class="fragment"><strong>Hooks</strong> — one shared fixture, every verse drops into it</li>
+            <li class="fragment"><strong>Bars</strong> — assert behaviors, not implementation</li>
+            <li class="fragment"><strong>Cadence</strong> — wait for the real world; simulate its worst days</li>
+            <li class="fragment"><strong>No filler</strong> — every test earns its place on the album</li>
+          </ol>
+          <aside class="notes">
+            Flow: if a human can't describe the journey, neither can the test. Hooks:
+            setup is a fixture, not copy-paste. Bars: ask 'what does the user experience?',
+            never 'what does the component render?'. Cadence: use route interception to
+            test slow and broken networks. No filler: if a test never went red, it's
+            proving nothing.
+          </aside>
+        </section>
+
+        <!-- 42 · checklist -->
+        <section>
+          <h2>Write your own cipher</h2>
+          <pre><code class="language-markdown" data-trim>
+[]  Name your tracks after behaviors, not files
+[]  One shared fixture (the hook) for setup
+[]  Write the behavior in plain language first
+[]  Watch it go RED before you write the fix
+[]  Fix the smallest thing that restores the flow
+[]  Watch it go GREEN — then keep it green in CI
+          </code></pre>
+          <aside class="notes">
+            A six-step checklist. The red step is the one people skip — but the red run
+            is what proves the test actually guards the behavior. If it never went red,
+            you don't know it can catch anything.
+          </aside>
+        </section>
+
+        <!-- 43 · resources -->
+        <section>
+          <h2>Keep the loop spinning</h2>
+          <ul class="resources">
+            <li><a href="https://playwright.dev/docs/intro">playwright.dev/docs</a> — auto-waiting, fixtures, routes</li>
+            <li><a href="https://github.com/dequelabs/axe-core-npm">@axe-core/playwright</a> — accessibility scans in tests</li>
+            <li><a href="https://web.dev/articles/cls">web.dev — Cumulative Layout Shift</a></li>
+            <li><a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a> — the bar for inclusive flows</li>
+            <li>The repo: <strong>playwright-cipher-demo</strong> — red-state → green-state</li>
+          </ul>
+          <aside class="notes">
+            Everything used today is documented. The demo repo is the take-home: tags
+            red-state and green-state let you replay the whole arc yourself.
+          </aside>
+        </section>
+
+        <!-- 44 · THANKS -->
+        <section>
+          <h1 class="title">THANKS<br />FOR <span class="accent">LISTENING</span></h1>
+          <p class="subtitle">Questions? Keep the cipher going.</p>
+          <p class="presenter">Wayne Jones · Commit Your Code 2026</p>
+          <aside class="notes">
+            Thank you. The mic is yours — I'll take questions. If you leave with one
+            thing: write tests like you're producing an album — every verse earns its
+            place, and the whole thing plays clean from front to back.
+          </aside>
+        </section>
+
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
