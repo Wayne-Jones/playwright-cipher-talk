@@ -35,14 +35,15 @@
           <h2>Three acts</h2>
           <div class="act-list">
             <p><span class="act-num">I</span> The cipher — what a rap cipher teaches a test suite</p>
-            <p><span class="act-num">II</span> The instrument — a live demo site built for testing</p>
+            <p><span class="act-num">II</span> The instrument — the stack, the mixtape, the hook</p>
             <p><span class="act-num">III</span> The tracks — five behaviors, five RED→GREEN arcs</p>
           </div>
           <aside class="notes">
-            Act I sets up the metaphor. Act II is the instrument we'll play — a small
-            rap-album review site. Act III is the main event: five tracks, and each one
-            follows the same loop — describe a behavior, write a test, watch it go RED,
-            fix the app, watch it go GREEN.
+            Act I sets up the metaphor. Act II shows the instrument in miniature: one
+            TypeScript repo, a test suite structured like a record, one shared fixture.
+            Act III is the main event: five tracks, and each one follows the same loop —
+            describe a behavior, open the live site, watch the test go RED, fix the app,
+            watch it go GREEN.
           </aside>
         </section>
 
@@ -138,28 +139,13 @@
           <h1>ACT II</h1>
           <h3>THE INSTRUMENT</h3>
           <aside class="notes">
-            Every cipher needs a stage. Ours is Boombox Reviews — a real, working album review
-            site that we will test like a record we're producing.
+            The instrument is Boombox Reviews — a real, working album review site we'll
+            test like a record we're producing. No time describing it on a slide: we'll
+            open it live in Act III and let the tests do the talking.
           </aside>
         </section>
 
-        <!-- ============ 09 · THE SITE ============ -->
-        <section>
-          <h2>Boombox Reviews</h2>
-          <ul>
-            <li class="fragment">Sixteen classic hip-hop albums, real cover art</li>
-            <li class="fragment">Cards with 5-mic ratings and a <strong>"Read Review"</strong> trigger</li>
-            <li class="fragment">A review <strong>dialog</strong> — keyboard-driven, like everything users expect</li>
-            <li class="fragment">Built to be <em>tested for behaviors</em> — every track maps to one user behavior</li>
-          </ul>
-          <aside class="notes">
-            The site is intentionally small: a header, a grid of album cards, and a review dialog.
-            Small enough to demo live, real enough that broken behaviors are visible to anyone.
-            Each behavior we test is something a real user actually does.
-          </aside>
-        </section>
-
-        <!-- ============ 10 · STACK ============ -->
+        <!-- ============ 09 · STACK ============ -->
         <section>
           <h2>The stack</h2>
           <div class="stack-grid">
