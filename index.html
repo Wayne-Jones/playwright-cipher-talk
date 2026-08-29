@@ -61,44 +61,39 @@
               Just about Playwright syntax, the concepts apply to any E2E
               framework
             </li>
-            <li>
+            <li>A tutorial on how to setup CI/CD configuration with testing</li>
+<li>
               An AI talk — this isn't about prompting tools to write and run
               tests for you
             </li>
-
-            <li>A tutorial on how to setup CI/CD configuration with testing</li>
           </ul>
           <p class="quote">
             It's about the shape of a test suite that works — so you can
             understand and own the tests that protect your app.
           </p>
           <aside class="notes">
-            The four concepts — flow, hooks, bars, cadence — are
-            framework-agnostic and apply to any E2E framework. This is not an AI
-            talk where you prompt an agent to write the tests for you. This talk
-            is for you, the developer, to understand and own the tests that
-            protect your app. Also we won't be going over how to setup CI/CD
-            configuration with testing.
+            The four concepts we will talk about today are framework-agnostic
+            and can apply to any E2E framework. We won't be going over how to
+            setup CI/CD configuration with testing. Sorry to disappoint but this
+            is not an AI talk where you prompt an agent to write the tests for you.
+            This talk is for you, the developer, to understand and own the tests
+            that protect your app.
           </aside>
         </section>
 
-        <!-- ============ SIDE A ============ -->
         <section class="act-slide">
           <h1>SIDE A</h1>
           <h3>THE CIPHER</h3>
           <aside class="notes">
-            A cipher: a circle of emcees, one microphone. Each takes the mic,
-            spits a verse, passes it on. If anyone drops it, the whole circle
-            feels it. That's our test suite.
+            A cipher: a circle of emcees, one microphone. Each person takes a
+            turn with the mic, spits a verse, passes it on. If anyone drops a
+            weak verse, the whole circle feels it. That's our test suite.
           </aside>
         </section>
 
         <section>
-          <h2>What is a cipher?</h2>
+          <h2>The Four Concepts of Rap</h2>
           <ul>
-            <li class="fragment">
-              A <strong>circle of emcees</strong>, one microphone
-            </li>
             <li class="fragment">
               Each verse has <strong>flow</strong> — the rhythm of the journey
             </li>
@@ -116,8 +111,9 @@
             "A good cipher has no filler. Every line earns its place."
           </p>
           <aside class="notes">
-            Four concepts: flow, hooks, bars, cadence. Plus the principle: no
-            filler. That phrase is the whole talk. Map it onto testing next.
+            Rap should contain no filler, making every test earn its place in
+            your test suite. How do these four concepts of rap translate to
+            testing?
           </aside>
         </section>
 
@@ -158,8 +154,8 @@
             </tbody>
           </table>
           <aside class="notes">
-            One microphone, shared by every verse: that's your fixture. Flow is
-            the journey your test walks — the same path a user walks. Bars are
+            Flow is the journey your test walks — the same path a user walks.
+            Hooks are the fixtures and helpers that set up the test. Bars are
             the assertions, the lines that land. Cadence is the timing: waiting
             reliably for the app, not sleeping through it.
           </aside>
@@ -189,8 +185,7 @@
           <aside class="notes">
             The structure of a cipher fixes all three: readable (named tracks,
             shared hook), resilient (behavior-level waits, cadence),
-            maintainable (every test is a verse, not a novel). The rest of the
-            talk proves it with a live app.
+            maintainable (every test is a verse, not a novel).
           </aside>
         </section>
 
@@ -207,11 +202,6 @@
             <span class="arrow">→</span>
             <span class="step-pill green">GREEN</span>
           </div>
-          <p class="fragment">
-            Every track on Side B runs this exact loop. By the fifth track, it
-            should feel obvious.
-            <span class="accent">The loop is the talk.</span>
-          </p>
           <aside class="notes">
             This is the slide the audience gets to take home. Five steps, the
             same shape, every time. On Side B I'll name the behavior, show the
@@ -257,7 +247,6 @@
           </aside>
         </section>
 
-        <!-- ============ SIDE B ============ -->
         <section class="act-slide">
           <h1>SIDE B</h1>
           <h3>FOUR TRACKS</h3>
@@ -273,7 +262,6 @@
           </aside>
         </section>
 
-        <!-- ============ TRACK 00 · SOUND CHECK ============ -->
         <section class="track-slide">
           <h3 class="track-number">TRACK 00</h3>
           <h1 class="accent">SOUND CHECK</h1>
@@ -297,7 +285,6 @@
           </aside>
         </section>
 
-        <!-- ============ TRACK 01 · FLOW ============ -->
         <section class="track-slide">
           <h3 class="track-number">TRACK 01</h3>
           <h1 class="accent">FLOW</h1>
@@ -423,7 +410,6 @@
           </aside>
         </section>
 
-        <!-- ============ TRACK 02 · HOOKS ============ -->
         <section class="track-slide">
           <h3 class="track-number">TRACK 02</h3>
           <h1 class="accent">HOOKS</h1>
@@ -540,7 +526,6 @@
           </aside>
         </section>
 
-        <!-- ============ TRACK 03 · BARS ============ -->
         <section class="track-slide">
           <h3 class="track-number">TRACK 03</h3>
           <h1 class="accent">BARS</h1>
@@ -654,7 +639,6 @@
           </aside>
         </section>
 
-        <!-- ============ TRACK 04 · CADENCE ============ -->
         <section class="track-slide">
           <h3 class="track-number">TRACK 04</h3>
           <h1 class="accent">CADENCE</h1>
@@ -770,7 +754,6 @@
           </aside>
         </section>
 
-        <!-- ============ THE FULL ALBUM ============ -->
         <section>
           <h2>The full album</h2>
           <div class="tracklist">
@@ -816,7 +799,6 @@
           </aside>
         </section>
 
-        <!-- ============ LIVE DEMO ============ -->
         <section>
           <h2>Replay the arc — live</h2>
           <p>The repo keeps both states as git tags:</p>
@@ -845,7 +827,6 @@
           </aside>
         </section>
 
-        <!-- ============ OUTRO ============ -->
         <section class="act-slide">
           <h1>OUTRO</h1>
           <h3>FOUR BARS TO TAKE HOME</h3>
