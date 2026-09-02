@@ -214,13 +214,14 @@
             <span class="accent">tracks, not files.</span>
           </p>
           <aside class="notes">
-            The mixtape closes Side A: each track is a test file, named after
-            the behavior it protects — the real file tree lives in tests/ in the
-            demo repo. When a track is red, you know which song is skipping —
+            The mixtape closes Side A. Each row here is a test file, named after
+            the behavior it protects — the real files live in tests/ in the
+            demo repo. When a track goes red, you know which song is skipping —
             you don't have to debug the whole album. And every track starts the
-            same way: one shared fixture (the hook, tests/fixtures/site.ts) does
-            the setup — open the crate, open a review, run an axe scan. You'll
-            see it live on Side B.
+            same way: one shared fixture (the hook, tests/fixtures/site.ts)
+            does the setup — open the crate, open a review, run an axe scan.
+            That shared hook is why the four tracks on Side B can each run the
+            same loop.
           </aside>
         </section>
 
