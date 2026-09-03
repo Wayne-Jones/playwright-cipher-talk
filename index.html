@@ -304,53 +304,49 @@
         <!-- 21 · behavior -->
         <section>
           <h2>Track 02 — The Behavior</h2>
-          <p class="behavior">A user utilizes the keyboard to navigate the website:</p>
+          <p class="behavior">
+            A user utilizes the keyboard to navigate the website:
+          </p>
           <ol>
             <li>
-              We need to test that when opening the modal, the focus is on the first interactive element in the modal.
+              We need to test that when opening the modal, the focus is on the
+              first interactive element in the modal.
             </li>
             <li>
-              We need to make sure when the modal is open, focus cycles through the modal and does not escape to the background page.
+              We need to make sure when the modal is open, focus cycles through
+              the modal and does not escape to the background page.
             </li>
             <li>
-              When pressing escape, we need to test that the modal closes and focus returns to the element that opened the modal.
+              When pressing escape, we need to test that the modal closes and
+              focus returns to the element that opened the modal.
             </li>
           </ol>
           <p class="fragment quote">
             Accessibility is a behavior. Treat it like one.
           </p>
-          <aside class="notes">
-            
-          </aside>
+          <aside class="notes"></aside>
         </section>
 
         <section class="track-slide">
           <h3 class="track-number">TRACK 03</h3>
           <h1 class="accent">BARS</h1>
-          <p>Visual stability: assertions that hold the layout to its word</p>
-          <p>Metaphor: assertions, the lines that land</p>
+          <p>Visual stability makes sure the layout holds to it's word</p>
           <aside class="notes">
-            Track 03: bars. This is where the layout holds. No matter how slow
-            the network, cards shouldn't jump around — that's Cumulative Layout
-            Shift, a Core Web Vital. Run npx playwright test
-            tests/03-bars-visual-stability.spec.ts and watch it catch that
-            one-pixel shift before any user sees it.
+            Visuals are just as important as functionality. When pages load we
+            need to make sure that there is no cumulative layout shift so that
+            cards don't jump around.
           </aside>
         </section>
 
         <section>
           <h2>Track 03 — The Behavior</h2>
           <p class="behavior">
-            A user on a slow connection scrolls the record bin and:
+            A user on a slow connection navigates to our website:
           </p>
           <ol>
             <li>
-              Every card <strong>holds its box</strong> while covers stream in —
-              no layout shift
-            </li>
-            <li>
-              Every cover <strong>reserves its space</strong> from the first
-              paint
+              Need to make sure that every card holds it's box while covers
+              stream in - minimizing layout shift
             </li>
           </ol>
           <p class="fragment quote">
@@ -358,9 +354,10 @@
           </p>
           <aside class="notes">
             Layout shift isn't a cosmetic nit — it's a Core Web Vital (CLS).
-            Users on slow networks click the wrong album because the grid moved
-            under their cursor. The behavior: the layout must hold its shape no
-            matter how covers load.
+            With bad CLS, users on slow networks could accidentally click the
+            wrong album because the grid moved under their cursor. This test
+            measures the CLS score of the page and fails if it exceeds a
+            threshold.
           </aside>
         </section>
 
@@ -446,9 +443,7 @@
         <section>
           <h2>Four bars to take home</h2>
           <ol class="takeaways">
-            <li>
-              <strong>Flow</strong> — test the journey, not the page
-            </li>
+            <li><strong>Flow</strong> — test the journey, not the page</li>
             <li>
               <strong>Hooks</strong> — one shared fixture, every verse drops
               into it
@@ -462,10 +457,10 @@
             </li>
           </ol>
           <aside class="notes">
-            Four bars to take home: Flow, Hooks, Bars, Cadence. Test the journey,
-            not the page. One shared fixture, every verse drops into it. Assert
-            behaviors, not implementation. Wait for the real world; simulate its
-            worst days.
+            Four bars to take home: Flow, Hooks, Bars, Cadence. Test the
+            journey, not the page. One shared fixture, every verse drops into
+            it. Assert behaviors, not implementation. Wait for the real world;
+            simulate its worst days.
           </aside>
         </section>
 
