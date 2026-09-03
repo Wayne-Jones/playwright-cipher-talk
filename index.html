@@ -345,8 +345,7 @@
           </p>
           <ol>
             <li>
-              Need to make sure that every card holds it's box while covers
-              stream in - minimizing layout shift
+              Need to make Cumulative Layout Shift (CLS) remains in a healthy range
             </li>
           </ol>
           <p class="fragment quote">
@@ -378,12 +377,10 @@
           </p>
           <ol>
             <li>
-              A dropped cover shows a <strong>fallback tile</strong> — never a
-              broken-image icon
+              If the network cuts while loading album art images, we should be displaying a fallback. Never a broken image icon.
             </li>
             <li>
-              The site <strong>keeps reviewing</strong> even when every cover
-              fails
+              If the network cuts while the user is trying to add a comment, we should be displaying an error message and allowing the user to retry. Never a broken form.
             </li>
           </ol>
           <p class="fragment quote">
