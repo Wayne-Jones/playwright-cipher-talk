@@ -39,18 +39,17 @@
               mixtape
             </p>
             <p>
-              <span class="act-num">Side B</span> The Tracks: Testing four
-              behaviors and going though a RED→GREEN loop for each
+              <span class="act-num">Side B</span> The Tracks: Testing real user
+              behaviors, testing for accessibility, and more
             </p>
           </div>
           <aside class="notes">
             For those that are OG Music heads, you would know that vinyl and
             cassette tapes have two sides. For the purpose of our talk, Side A
             is the setup, the metaphor, the mixtape. Side B is where we will lay
-            down the tracks — four of them, each running the same loop. We'll
-            describe the behavior we want to test, write the test, watch it
-            fail, fix it, watch it pass. That's how you turn code into
-            confidence.
+            down the tracks — four of them, each testing real user scenarios.
+            We'll describe the behavior we want to test, I'll then show you the
+            test code and then show you what that looks like within playwright.
           </aside>
         </section>
 
@@ -187,29 +186,24 @@
           <div class="tracklist">
             <div>
               <span class="tl-num">01</span> Flow
-              <small>keyboard navigation</small>
+              <small>User Navigation & Behavior</small>
             </div>
             <div>
               <span class="tl-num">02</span> Hooks
-              <small>accessibility flows</small>
+              <small>Accessibility Flows</small>
             </div>
             <div>
               <span class="tl-num">03</span> Bars
-              <small>visual stability</small>
+              <small>Visual Stability</small>
             </div>
             <div>
               <span class="tl-num">04</span> Cadence
-              <small>resilient network</small>
+              <small>Resilient Network</small>
             </div>
           </div>
           <aside class="notes">
-            The mixtape closes Side A. Each row here is a test file, named after
-            the behavior it protects — the real files live in tests/ in the demo
-            repo. When a track goes red, you know which song is skipping — you
-            don't have to debug the whole album. And every track starts the same
-            way: one shared fixture (the hook, tests/fixtures/site.ts) does the
-            setup — open the crate, open a review, run an axe scan. That shared
-            hook is why the four tracks on Side B can each run the same loop.
+            The mixtape closes Side A with four tracks, each testing a real user
+            behavior.
           </aside>
         </section>
 
@@ -228,10 +222,13 @@
             <span class="step-pill green">GREEN</span>
           </div>
           <aside class="notes">
-            For each test that I'll go over, I'll describe a real user behavior,
-            show the test that describes it, watch it fail against the broken
-            app, fix the smallest possible thing, and watch it pass. This is the
-            basis of Test Driven Development (TDD)
+            Test Driven Development or TDD goes through this common flow.
+            Describing a user behavior, writing the test that supports that
+            behavior, watching it fail, then write the implementation code, then
+            watching the test pass.This is the basis of Test Driven Development
+            (TDD). In the interest of time, I'll just be going over the behavior
+            and the test code, and show you the test results. The implementation
+            code is not the focus of this talk.
           </aside>
         </section>
 
@@ -345,7 +342,8 @@
           </p>
           <ol>
             <li>
-              Need to make Cumulative Layout Shift (CLS) remains in a healthy range
+              Need to make Cumulative Layout Shift (CLS) remains in a healthy
+              range
             </li>
           </ol>
           <p class="fragment quote">
@@ -365,8 +363,8 @@
           <h1 class="accent">CADENCE</h1>
           <p>Resilient network handling: never stumble when the beat skips</p>
           <aside class="notes">
-            When the network skips out — that's where cadence
-            matters. A good MC keeps flowing; a good site degrades gracefully.
+            When the network skips out — that's where cadence matters. A good MC
+            keeps flowing; a good site degrades gracefully.
           </aside>
         </section>
 
@@ -377,21 +375,20 @@
           </p>
           <ol>
             <li>
-              If the network cuts while loading album art images, we should be displaying a fallback. Never a broken image icon.
+              If the network cuts while loading album art images, we should be
+              displaying a fallback. Never a broken image icon.
             </li>
             <li>
-              If the network cuts while the user is trying to add a comment, we should be displaying an error message and allowing the user to retry. Never a broken form.
+              If the network cuts while the user is trying to add a comment, we
+              should be displaying an error message and allowing the user to
+              retry. Never a broken form.
             </li>
           </ol>
           <p class="fragment quote">
             The beat will skip. Flow is what you do when it does.
           </p>
           <aside class="notes">
-            Track 04: cadence — timing that never breaks. The behavior: when a
-            cover request fails, the site degrades gracefully — a fallback tile,
-            never a broken icon. In the demo we run: npx playwright test
-            tests/04-cadence-resilient-network.spec.ts — every aborted cover
-            renders a placeholder.
+            
           </aside>
         </section>
 
@@ -400,29 +397,27 @@
           <div class="tracklist">
             <div>
               <span class="tl-num">00</span> The Sound Check
-              <span class="tl-count green">3 passed</span>
+              <!-- <span class="tl-count green">3 passed</span> -->
             </div>
             <div>
               <span class="tl-num">01</span> Flow
-              <span class="tl-count green">3 passed</span>
+              <!-- <span class="tl-count green">3 passed</span> -->
             </div>
             <div>
               <span class="tl-num">02</span> Hooks
-              <span class="tl-count green">4 passed</span>
+              <!-- <span class="tl-count green">4 passed</span> -->
             </div>
             <div>
               <span class="tl-num">03</span> Bars
-              <span class="tl-count green">2 passed</span>
+              <!-- <span class="tl-count green">2 passed</span> -->
             </div>
             <div>
               <span class="tl-num">04</span> Cadence
-              <span class="tl-count green">2 passed</span>
+              <!-- <span class="tl-count green">2 passed</span> -->
             </div>
           </div>
           <aside class="notes">
-            Live: npx playwright test — the whole mixtape runs in about ten
-            seconds. Twenty-two tests, seven named tracks, one shared hook, and
-            every test a behavior someone actually performs.
+            
           </aside>
         </section>
 
@@ -430,8 +425,7 @@
           <h1>OUTRO</h1>
           <h3>FOUR BARS TO TAKE HOME</h3>
           <aside class="notes">
-            Twenty-five minutes of metaphor distilled into four bars you can
-            take back to your own test suites on Monday.
+            
           </aside>
         </section>
         <section>
